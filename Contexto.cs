@@ -33,5 +33,7 @@ namespace Revis
             modelBuilder.Entity<MecanicoModel>().HasOne(e => e.oficina).WithMany(e => e.mecanicos).OnDelete(DeleteBehavior.Cascade);
 
         }
+
+
     }
 }

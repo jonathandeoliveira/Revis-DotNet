@@ -1,3 +1,5 @@
+using Revis.Repositorio;
+
 namespace Revis
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Revis
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            //builder.Services.AddScoped<IOficinaRepositorio, OficinaRepositorio>();
 
             var app = builder.Build();
 

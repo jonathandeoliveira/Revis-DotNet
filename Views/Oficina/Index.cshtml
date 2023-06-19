@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Oficinas";
+}
+
+<div class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Oficina" asp-action="Create">Indicar nova Oficina </a>
+    </div>
+
+    <div>
+        <h1 class="display-8">Todas as Oficinas:</h1>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Cidade</th>
+                <th scope="col">Endereço</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Zezin Oficinas</td>
+                <td>São Paulo</td>
+                <td>São Bernardo do Campo</td>
+                <td>Rua do centro 123, Centro</td>
+            </tr>
+            <tr>
+                <td>Mecânica Joao e Maria</td>
+                <td>São Paulo</td>
+                <td>São Caetano do Sul</td>
+                <td>Rua do centro 123, Centro</td>
+            </tr>
+            <tr>
+                <td>Pedrinho Manutenções</td>
+                <td>São Paulo</td>
+                <td>Santo André</td>
+                <td>Rua do centro 123, Centro</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
