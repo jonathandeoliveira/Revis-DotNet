@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<OficinaModel>
+@{
     ViewData["Title"] = "Oficinas";
 }
 
@@ -21,24 +22,27 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Zezin Oficinas</td>
-                <td>São Paulo</td>
-                <td>São Bernardo do Campo</td>
-                <td>Rua do centro 123, Centro</td>
-            </tr>
-            <tr>
-                <td>Mecânica Joao e Maria</td>
-                <td>São Paulo</td>
-                <td>São Caetano do Sul</td>
-                <td>Rua do centro 123, Centro</td>
-            </tr>
-            <tr>
-                <td>Pedrinho Manutenções</td>
-                <td>São Paulo</td>
-                <td>Santo André</td>
-                <td>Rua do centro 123, Centro</td>
-            </tr>
+            @if(Model != null && Model.Any())
+            {
+                foreach(OficinaModel oficina in Model)
+                {
+                <tr>
+                        <td>
+                            <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@oficina.id">
+                                @oficina.nome
+                            </a>
+                        </td>
+                    <td>@oficina.estado</td>
+                    <td>@oficina.cidade</td>
+                    <td>@oficina.endereco</td>
+                </tr>
+                }
+            }
+            else
+            {
+            <h1>Não existem Oficinas Cadastradas</h1>
+            }
         </tbody>
     </table>
+
 </div>
