@@ -10,21 +10,11 @@ namespace Revis.Controllers
         Contexto contexto = new Contexto();
         public IActionResult Index()
         {
-           
+
             try
             {
                 List<OficinaModel> oficinas = (from OficinaModel p in contexto.Oficinas select p).Include(ofc => ofc.mecanicos).ToList<OficinaModel>();
-                /*foreach (OficinaModel item in oficinas)
-                {
-                    Console.WriteLine(item.nome);
-                    foreach (Email itemMecanico in item.mecanicos)
-                    {
 
-                        Console.WriteLine("\t" + itemMecanico.email);
-
-                    }
-                    Console.WriteLine();
-                }*/
                 return View(oficinas);
             }
             catch (Exception ex)
@@ -47,7 +37,6 @@ namespace Revis.Controllers
                 return View("Error");
             }
             List<MecanicoModel> mecanicos = contexto.Mecanicos.Where(m => m.oficina.id == id).ToList();
-
             ViewBag.Oficina = oficina;
             ViewBag.Mecanicos = mecanicos;
             return View();
@@ -61,5 +50,34 @@ namespace Revis.Controllers
             contexto.SaveChanges();
             return RedirectToAction("Index");
         }
+
+        public IActionResult CreateMecanico(int oficinaId)
+        {
+            OficinaModel oficina = contexto.Oficinas.Find(oficinaId);
+
+            if (oficina == null)
+            {
+                return RedirectToRoute("/Oficina");
+            }
+
+            MecanicoModel mecanico = new MecanicoModel();
+            ViewData["OficinaId"] = oficinaId; // Passa o ID da oficina para a view usando ViewData
+            return View("CreateMecanico", mecanico);
+        }
+
+        [HttpPost]
+        public IActionResult CreateMecanico(MecanicoModel mecanico, int oficinaId)
+        {
+            OficinaModel oficina = contexto.Oficinas.Find(oficinaId);
+
+            if (oficina != null)
+            {
+                mecanico.oficina = oficina; // Atribui o ID da oficina à propriedade oficinaId
+                contexto.Mecanicos.Add(mecanico);
+                contexto.SaveChanges();
+            }
+            return RedirectToAction("Show", new { id = oficinaId });
+        }
+
     }
 }

@@ -9,6 +9,7 @@
         public int idade { get; set; }
         public string categoriaDeManutencao { get; set; }
         public string resumo { get; set; }
+        public int oficinaId { get; set; }
         public virtual OficinaModel oficina { get; set; }
     }
 }

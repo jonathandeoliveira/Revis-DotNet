@@ -27,6 +27,10 @@
                         </li>
                     </ul>
                 </div>
+                <form action="@Url.Action("SimpleSearch", "Home")" method="GET">
+                    <input type="text" name="query" placeholder="Pesquisa simples">
+                    <button class="btn" type="submit">Buscar</button>
+                </form>
             </div>
         </nav>
     </header>

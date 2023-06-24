@@ -1,0 +1,54 @@
+﻿@model MecanicoModel
+
+<h1>Cadastrar Mecânico em: @Model.oficina.nome </h1>
+
+<form asp-controller="Oficina" asp-action="CreateMecanico" method="post">
+    <div class="form-group">
+        <input type="hidden" name="oficinaId" value="@ViewData["OficinaId"]">
+    </div>
+
+    <div class="form-group">
+        <label for="nome" class="form-label">Nome:</label>
+        <input type="text" asp-for="nome" class="form-control" placeholder="Seu nome">
+    </div>
+
+    <div class="form-group">
+        <label for="CPF" class="form-label">CPF:</label>
+        <input type="text" asp-for="cpf" class="form-control" placeholder="123.456.789-00">
+    </div>
+
+    <div class="form-group">
+        <label for="cidade" class="form-label">Gênero:</label>
+        <select asp-for="sexo" class="form-control">
+            <option value="">Selecione seu gênero</option>
+            <option value="Masculino">Masculino </option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+            <option value="Prefiro nao informar">Prefiro não informar</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="categoriaDeManutencao" class="form-label">Categoria de Manutenção:</label>
+        <select asp-for="categoriaDeManutencao" class="form-control">
+            <option value="">Categoria de manutenção</option>
+            <option value="Carro">Carro</option>
+            <option value="Motocicletas">Motocicletas</option>
+            <option value="Caminhao_e_Onibus">Caminhão/Ônibus</option>
+            <option value="Vans">Vans</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="idade" class="form-label">Idade:</label>
+        <input type="text" asp-for="idade" class="form-control" placeholder="38">
+    </div>
+
+    <div class="form-group">
+        <label for="resumo" class="form-label">Especialidades:</label>
+        <input type="text" asp-for="resumo" class="form-control" placeholder="Honda,Scania,Mercedes,Suspensoes,Transmissao,Motor,Eletronica, Etc.. (Não utilizar pontuação)">
+    </div><br>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+    <a class="btn btn-secondary" asp-controller="Oficina" asp-action="Index" role="button"> Voltar </a>
+</form>

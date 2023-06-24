@@ -13,6 +13,8 @@ namespace Revis
     {
         public DbSet<OficinaModel> Oficinas { get; set; }
         public DbSet<MecanicoModel> Mecanicos { get; set; }
+        public static IEnumerable<object> MecanicoModel { get; internal set; }
+
         public Contexto() { }
 
 

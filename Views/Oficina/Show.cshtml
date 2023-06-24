@@ -1,5 +1,17 @@
 ﻿@model OficinaModel
 
-<div>
-    <h1 class="display-8">Detalhes sobre a oficina: @ViewBag.Oficina.nome</h1>
-</div>
+<nav>
+    <article>
+        <h1 class="display-8">Detalhes sobre a oficina:</h1>
+        <div>
+            <dl>
+                <dt>Nome:</dt>
+                <dd> @ViewBag.Oficina.nome </dd>
+                <dt>CPNJ:</dt>
+                <dd>@ViewBag.Oficina.cpnj </dd>
+                <dd> Quantidade de funcionários:</dd>
+                <dd><a href="@Url.Action("Create", "Mecanico", new { oficinaId = @ViewBag.Oficina.id })">Cadastrar novo Mecânico(a)</a>  </dd>
+            </dl>
+        </div>
+    </article>
+</nav>

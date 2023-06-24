@@ -1,0 +1,23 @@
+﻿@model IEnumerable<OficinaModel>
+
+<h1>Resultados da busca</h1>
+
+<h2>Oficinas:</h2>
+<ul>
+    @foreach (OficinaModel oficina in ViewBag.oficinas)
+    {
+        <li>
+            <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@oficina.id">
+                @oficina.nome
+            </a>
+        </li>
+    }
+</ul>
+
+<h2>Mecanicos:</h2>
+<ul>
+    @foreach (MecanicoModel mecanico in ViewBag.mecanicos)
+    {
+        <li>@mecanico.nome</li>
+    }
+</ul>

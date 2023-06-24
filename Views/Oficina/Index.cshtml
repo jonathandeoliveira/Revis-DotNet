@@ -21,28 +21,29 @@
                 <th scope="col">Endereço</th>
             </tr>
         </thead>
-        <tbody>
-            @if(Model != null && Model.Any())
+        @if (Model != null && Model.Any())
+        {
+            foreach (OficinaModel oficina in Model)
             {
-                foreach(OficinaModel oficina in Model)
-                {
-                <tr>
+                <tbody>
+                    <tr>
                         <td>
                             <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@oficina.id">
                                 @oficina.nome
                             </a>
                         </td>
-                    <td>@oficina.estado</td>
-                    <td>@oficina.cidade</td>
-                    <td>@oficina.endereco</td>
-                </tr>
-                }
+                        <td>@oficina.estado</td>
+                        <td>@oficina.cidade</td>
+                        <td>@oficina.endereco</td>
+                    </tr>
+                </tbody>
             }
-            else
-            {
-            <h1>Não existem Oficinas Cadastradas</h1>
-            }
-        </tbody>
+        }
+        else
+        {
+            <h1>Não existem oficinas cadastradas na plataforma</h1>
+        }
     </table>
+
 
 </div>
