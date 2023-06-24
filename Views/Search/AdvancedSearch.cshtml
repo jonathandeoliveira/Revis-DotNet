@@ -1,0 +1,79 @@
+﻿@model SearchModel
+
+<div class="text-start">
+    <h1 class="display-4">Busca Avançada:</h1>
+</div>
+<!-- html puro -->
+<form method="post" asp-action="AdvancedSearch">
+    <h1 class="display-6">Oficinas</h1>
+    <div class="form-group">
+        <label>Nome:</label>
+        <input type="text" name="OficinaNome" class="form-control" value="@Model.OficinaNome" />
+        <label>CPNJ:</label>
+        <input type="text" name="OficinaCpnj" class="form-control" value="@Model.OficinaCpnj" />
+        <label>CEP:</label>
+        <input type="text" name="OficinaCep" class="form-control" value="@Model.OficinaCep" />
+        <label>Endereço:</label>
+        <input type="text" name="OficinaEndereco" class="form-control" value="@Model.OficinaEndereco" />
+        <label>Cidade:</label>
+        <input type="text" name="OficinaCidade" class="form-control" value="@Model.OficinaCidade" />
+        <label>Estado:</label>
+        <select asp-for="OficinaEstado" class="form-control">
+            <option value="">Selecione o estado</option>
+            <option value="Acre">Acre</option>
+            <option value="Alagoas">Alagoas</option>
+            <option value="Amapá">Amapá</option>
+            <option value="Amazonas">Amazonas</option>
+            <option value="Bahia">Bahia</option>
+            <option value="Ceará">Ceará</option>
+            <option value="Distrito Federal">Distrito Federal</option>
+            <option value="Espírito Santo">Espírito Santo</option>
+            <option value="Goiás">Goiás</option>
+            <option value="Maranhão">Maranhão</option>
+            <option value="Mato Grosso">Mato Grosso</option>
+            <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+            <option value="Minas Gerais">Minas Gerais</option>
+            <option value="Pará">Pará</option>
+            <option value="Paraíba">Paraíba</option>
+            <option value="Paraná">Paraná</option>
+            <option value="Pernambuco">Pernambuco</option>
+            <option value="Piauí">Piauí</option>
+            <option value="Rio de Janeiro">Rio de Janeiro</option>
+            <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+            <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+            <option value="Rondônia">Rondônia</option>
+            <option value="Roraima">Roraima</option>
+            <option value="Santa Catarina">Santa Catarina</option>
+            <option value="São Paulo">São Paulo</option>
+            <option value="Sergipe">Sergipe</option>
+            <option value="Tocantins ">Tocantins</option>
+        </select>
+    </div>
+
+ <!-- html com mvc  // apenas por questão de treino e estudo. -->
+    <h1 class="display-6">Mecanicos:</h1>
+    <div class="form-group">
+        <label>Nome</label>
+        <input type="text" asp-for="MecanicoNome" class="form-control" placeholder="João das Neves">
+        <label>Gênero:</label>
+        <select asp-for="MecanicoSexo" class="form-control">
+            <option value="">Selecione seu gênero</option>
+            <option value="Masculino">Masculino </option>
+            <option value="Feminino">Feminino</option>
+            <option value="Outro">Outro</option>
+            <option value="Prefiro nao informar">Prefiro não informar</option>
+        </select>
+        <label>Tipo de veículo:</label>
+        <select asp-for="MecanicoCategoriaDeManutencao" class="form-control">
+            <option value="">Categoria de manutenção</option>
+            <option value="Carro">Carro</option>
+            <option value="Motocicletas">Motocicletas</option>
+            <option value="Caminhao_e_Onibus">Caminhão/Ônibus</option>
+            <option value="Vans">Vans</option>
+        </select>
+        <label>Especialidade:</label>
+        <input type="text" asp-for="MecanicoResumo" class="form-control" placeholder="Cambio, motor, fiat uno, honda twister, volkswagen gol">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>

@@ -28,9 +28,10 @@
                     </ul>
                 </div>
                 <form action="@Url.Action("SimpleSearch", "Home")" method="GET">
-                    <input type="text" name="query" placeholder="Pesquisa simples">
-                    <button class="btn" type="submit">Buscar</button>
+                    <input type="text" name="query" placeholder="Busca simples">
+                    <button class="btn" style="color: mediumslateblue" type="submit">Buscar</button>
                 </form>
+                -<a href="@Url.Action("AdvancedSearch", "Search")" class="btn" style="color: mediumslateblue">Busca Avançada</a>
             </div>
         </nav>
     </header>
