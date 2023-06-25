@@ -1,18 +1,19 @@
 ﻿@model SearchModel
 
-<h1>Resultados da Busca</h1>
+<h1>Resultados da Busca Avançada</h1>
 <br>
-<br>
-
 @if (Model.oficinas.Any())
 {
     <h4>Oficinas Encontradas:</h4>
     <table class="table">
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Cidade</th>
-                <th>Endereço</th>
+                <th>Oficina</th>
+                @if (Model.mecanicos.Any())
+                   {
+                       <th>Mecânicos</th>
+                   }
+
             </tr>
         </thead>
         <tbody>
@@ -20,39 +21,21 @@
             {
                 <tr>
                     <td>@oficina.nome</td>
-                    <td>@oficina.cpnj</td>
-                    <td>@oficina.estado, @oficina.cidade</td>
-                    <!-- Adicione as colunas restantes para exibir os atributos das oficinas -->
+                    <td>
+                        <ul>
+                            @if(Model.mecanicos.Any())
+                            @foreach (var mecanico in Model.mecanicos)
+                            {
+                                <li>@mecanico.nome</li>
+                            }
+                        </ul>
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 }
-<br>
-<br>
-@if (Model.mecanicos.Any())
+else
 {
-    <h4>Mecânicos encontrados:</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Sexo</th>
-                <th>Oficina</th>
-
-                <!-- Adicione as colunas restantes para exibir os atributos dos mecânicos -->
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var mecanico in Model.mecanicos)
-            {
-                <tr>
-                    <td>@mecanico.nome</td>
-                    <td>@mecanico.sexo</td>
-                    <td>@mecanico.oficina.nome</td>
-                    <!-- Adicione as colunas restantes para exibir os atributos dos mecânicos -->
-                </tr>
-            }
-        </tbody>
-    </table>
+    <p>Nenhum resultado encontrado.</p>
 }

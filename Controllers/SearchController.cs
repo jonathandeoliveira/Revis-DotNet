@@ -17,7 +17,7 @@ namespace Revis.Controllers
         // Action para processar a busca avançada
         [HttpPost]
         public IActionResult AdvancedSearch(SearchModel searchModel)
-        {
+        {/*
             List<OficinaModel> oficinasResult = new List<OficinaModel>();
             if (!searchModel.OficinaNome.IsNullOrEmpty())
             {
@@ -46,6 +46,8 @@ namespace Revis.Controllers
             }
 
             List<MecanicoModel> mecanicosResult = new List<MecanicoModel>();
+            oficinasResult.ForEach(oficina => { mecanicosResult.AddRange(oficina.mecanicos)}); ;
+
             if (!searchModel.MecanicoNome.IsNullOrEmpty())
             {
                 mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.nome.Contains(searchModel.MecanicoNome)).ToList());
@@ -63,6 +65,43 @@ namespace Revis.Controllers
                 mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.resumo.Contains(searchModel.MecanicoResumo)).ToList());
             }
 
+            if (mecanicosResult.Any())
+            {
+                mecanicosResult = mecanicosResult
+                .GroupBy(m => new { m.nome, m.cpf, m.sexo }) // Agrupar por propriedades relevantes
+                .Select(g => g.First()) // Selecionar o primeiro registro de cada grupo
+                .ToList();
+                oficinasResult = oficinasResult.Where(o => mecanicosResult.Any(m => m.oficinaId == o.id)).ToList();
+
+            }*/
+            List<OficinaModel> oficinasResult = new List<OficinaModel>();
+            oficinasResult = contexto.Oficinas
+                .Where(o => (
+                    (searchModel.OficinaNome.IsNullOrEmpty() || o.nome.Contains(searchModel.OficinaNome)) &&
+                    (searchModel.OficinaEstado.IsNullOrEmpty() || o.estado.Contains(searchModel.OficinaEstado)) &&
+                    (searchModel.OficinaCidade.IsNullOrEmpty() || o.cidade.Contains(searchModel.OficinaCidade)) &&
+                    (searchModel.OficinaEndereco.IsNullOrEmpty() || o.endereco.Contains(searchModel.OficinaEndereco)) &&
+                    (searchModel.MecanicoNome.IsNullOrEmpty() || o.mecanicos.Any(m => m.nome.Contains(searchModel.MecanicoNome))) &&
+                    (searchModel.MecanicoSexo.IsNullOrEmpty() || o.mecanicos.Any(m => m.sexo == searchModel.MecanicoSexo)) &&
+                    (searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty() || o.mecanicos.Any(m => m.categoriaDeManutencao.Contains(searchModel.MecanicoCategoriaDeManutencao))) &&
+                    (searchModel.MecanicoResumo.IsNullOrEmpty() || o.mecanicos.Any(m => m.resumo.Contains(searchModel.MecanicoResumo)))
+                ))
+                .ToList();
+            oficinasResult = oficinasResult.Distinct().ToList();
+            List<MecanicoModel> mecanicosResult = new List<MecanicoModel>();
+
+            foreach (var oficina in oficinasResult)
+            {
+                 mecanicosResult = contexto.Mecanicos
+                    .Where(m => m.oficinaId == oficina.id &&
+                        (searchModel.MecanicoNome.IsNullOrEmpty() || m.nome.Contains(searchModel.MecanicoNome)) &&
+                        (searchModel.MecanicoSexo.IsNullOrEmpty() || m.sexo == searchModel.MecanicoSexo) &&
+                        (searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty() || m.categoriaDeManutencao == (searchModel.MecanicoCategoriaDeManutencao)) &&
+                        (searchModel.MecanicoResumo.IsNullOrEmpty() || m.resumo.Contains(searchModel.MecanicoResumo)))
+                    .ToList();
+
+                oficina.mecanicos = mecanicosResult;
+            }
 
             var searchResults = new SearchModel
             {
@@ -70,7 +109,8 @@ namespace Revis.Controllers
                 mecanicos = mecanicosResult
             };
 
-               return View("AdvancedResults", searchResults);
+
+            return View("AdvancedResults", searchResults);
         }
 
 
