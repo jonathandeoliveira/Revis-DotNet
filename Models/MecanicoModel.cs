@@ -12,4 +12,6 @@
         public int oficinaId { get; set; }
         public virtual OficinaModel oficina { get; set; }
     }
+
+
 }

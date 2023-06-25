@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Revis.Models;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Revis.Controllers
 {
@@ -45,6 +46,11 @@ namespace Revis.Controllers
         [HttpPost]
         public IActionResult Create(OficinaModel oficina)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             Contexto contexto = new Contexto();
             contexto.Oficinas.Add(oficina);
             contexto.SaveChanges();
