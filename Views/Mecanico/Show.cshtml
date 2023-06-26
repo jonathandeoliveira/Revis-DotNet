@@ -1,0 +1,22 @@
+﻿@model MecanicoModel
+
+<nav>
+    <article>
+        <h1 class="display-8">Detalhes sobre o mecânico:</h1>
+        <div>
+            <dl>
+                <dt>Nome:</dt>
+                <dd>@Model.nome</dd>
+                <dt>Gênero:</dt>
+                <dd>@Model.sexo</dd>
+                <dt>Categoria de Manutenção:</dt>
+                <dd>@Model.categoriaDeManutencao</dd>
+                <dt>Especialidades:</dt>
+                <dd>@Model.resumo</dd>
+            </dl>
+        </div>
+        <div>
+            <a href="@Url.Action("AgendarManutencao", "Mecanico", new { mecanicoId = @Model.id })">Agendar Manutenção</a>
+        </div>
+    </article>
+</nav>

@@ -6,12 +6,44 @@
         <div>
             <dl>
                 <dt>Nome:</dt>
-                <dd> @ViewBag.Oficina.nome </dd>
+                <dd>@Model.nome</dd>
                 <dt>CPNJ:</dt>
-                <dd>@ViewBag.Oficina.cpnj </dd>
-                <dd> Quantidade de funcionários:</dd>
-                <dd><a href="@Url.Action("Create", "Mecanico", new { oficinaId = @ViewBag.Oficina.id })">Cadastrar novo Mecânico(a)</a>  </dd>
+                <dd>@Model.cpnj</dd>
+                <dt>Quantidade de funcionários: @ViewBag.Mecanicos.Count </dt>
+                <dd><a href="@Url.Action("Create", "Mecanico", new { oficinaId = ViewBag.Oficina.id })">Cadastrar novo Mecânico(a)</a></dd>
             </dl>
         </div>
     </article>
 </nav>
+
+<h2>Mecânicos:</h2>
+@if (ViewBag.Mecanicos != null && ViewBag.Mecanicos.Count > 0)
+{
+    <table class="table table-hover">
+        <tr class="table-active" >
+            <th scope="col">Nome</th>
+            <th scope="col">Sexo</th>
+            <th scope="col">Categoria de Manutenção</th>
+            <th scope="col">Especialidade do mecânico</th>
+            <!-- Adicione aqui outras colunas desejadas -->
+        </tr>
+        @foreach (var mecanico in ViewBag.Mecanicos)
+        {
+            <tr>
+                <td scope="row">
+                    <a role="link" asp-controller="Mecanico" asp-action="Show" asp-route-id="@mecanico.id">
+                            @mecanico.nome
+                    </a>
+                </td>
+                <td scope="row">@mecanico.sexo</td>
+                <td scope="row">@mecanico.categoriaDeManutencao</td>
+                <td scope="row">@mecanico.resumo</td>
+                <!-- Adicione aqui outras colunas desejadas -->
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>Nenhum mecânico cadastrado nesta oficina.</p>
+}

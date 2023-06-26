@@ -30,7 +30,8 @@ namespace Revis.Controllers
         {
             return View();
         }
-        public IActionResult Show(int id)
+
+        /*public IActionResult Show(int id)
         {
             OficinaModel oficina = contexto.Oficinas.Find(id);
             if (oficina == null)
@@ -41,6 +42,21 @@ namespace Revis.Controllers
             ViewBag.Oficina = oficina;
             ViewBag.Mecanicos = mecanicos;
             return View();
+        }*/
+
+
+        public IActionResult Show(int id)
+        {
+            OficinaModel oficina = contexto.Oficinas.Find(id);
+            if (oficina == null)
+            {
+                return View("Error");
+            }
+
+            List<MecanicoModel> mecanicos = contexto.Mecanicos.Where(m => m.oficina.id == id).ToList();
+            ViewBag.Mecanicos = mecanicos;
+            ViewBag.Oficina = oficina;
+            return View(oficina);
         }
 
         [HttpPost]

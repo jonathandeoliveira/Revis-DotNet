@@ -24,5 +24,17 @@ namespace Revis.Controllers
             }
             else { return View(); } // retornar uma mensagem de erro futuramente
         }
+
+
+        public IActionResult Show(int id)
+        {
+            MecanicoModel mecanico = contexto.Mecanicos.Find(id);
+
+            if (mecanico == null)
+            {
+                return View("Error");
+            }
+                return View(mecanico);
+        }
     }
 }
