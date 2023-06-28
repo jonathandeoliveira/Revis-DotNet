@@ -10,30 +10,30 @@
     <form asp-controller="Oficina" asp-action="Create" method="post">
         <div class="form-group">
             <label for="nome" class="form-label">Nome</label>
-            <input type="text" asp-for="nome" class="form-control" placeholder="Nome da sua Oficina">
+        <input type="text" asp-for="nome" class="form-control" placeholder="Nome da sua Oficina" required>
         </div>
 
         <div class="form-group">
             <label for="cpnj" class="form-label">CPNJ</label>
-        <input type="text" id="cpnj" asp-for="cpnj" class="form-control" pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}" required placeholder="00.0000.000/0000-00">
-        </div>
-        <script>
-            const form = document.querySelector('form');
-            const cnpjInput = document.getElementById('cnpj');
+            <input type="text" id="cpnj" asp-for="cpnj" class="form-control" pattern="\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}" required placeholder="00.0000.000/0000-00">
+        
+            <script>
+                const form = document.querySelector('form');
+                const cnpjInput = document.getElementById('cnpj');
 
-            form.addEventListener('submit', function (event) {
-                if (!cnpjInput.validity.valid) {
-                    event.preventDefault();
-                    alert('O CNPJ informado não está no formato correto.');
-                }
-            });
-        </script>
-
+                form.addEventListener('submit', function (event) {
+                    if (!cnpjInput.validity.valid) {
+                        event.preventDefault();
+                        alert('O CNPJ informado não está no formato correto.');
+                    }
+                });
+            </script>
+         </div>
 
 
     <div class="form-group">
         <label for="estado" class="form-label">Estado:</label>
-        <select asp-for="estado" class="form-control">
+        <select asp-for="estado" class="form-control" required>
             <option value="">Selecione o estado</option>
             <option value="Acre">Acre</option>
             <option value="Alagoas">Alagoas</option>
@@ -67,17 +67,17 @@
 
     <div class="form-group">
         <label for="cep" class="form-label">CEP:</label>
-        <input type="text" asp-for="cep" class="form-control" placeholder="01234-567">
+        <input type="text" asp-for="cep" class="form-control" placeholder="01234-567" required>
     </div>
 
         <div class="form-group">
             <label for="cidade" class="form-label">Cidade:</label>
-            <input type="text" asp-for="cidade" class="form-control" placeholder="São Paulo">
+        <input type="text" asp-for="cidade" class="form-control" placeholder="São Paulo" >
         </div>
 
         <div class="form-group">
             <label for="endereco" class="form-label">Endereço:</label>
-            <input type="text" asp-for="endereco" class="form-control" placeholder="Rua do bairro 123, Brooklin ">
+            <input type="text" asp-for="endereco" class="form-control" placeholder="Rua do bairro 123, Brooklin" >
         </div><br>
         <button type="submit" class="btn btn-primary">Enviar</button>
         <a class="btn btn-secondary" asp-controller="Oficina" asp-action="Index" role="button"> Voltar </a>

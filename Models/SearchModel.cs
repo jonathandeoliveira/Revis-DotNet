@@ -17,7 +17,6 @@
         public string? MecanicoNome { get; set; }
         public string? MecanicoCpf { get; set; }
         public string? MecanicoSexo { get; set; }
-        public int? MecanicoIdade { get; set; }
         public string? MecanicoCategoriaDeManutencao { get; set; }
         public string? MecanicoResumo { get; set; }
     }

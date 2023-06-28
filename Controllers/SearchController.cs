@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Revis.Models;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Revis.Controllers
 {
@@ -17,102 +19,90 @@ namespace Revis.Controllers
         // Action para processar a busca avançada
         [HttpPost]
         public IActionResult AdvancedSearch(SearchModel searchModel)
-        {/*
-            List<OficinaModel> oficinasResult = new List<OficinaModel>();
-            if (!searchModel.OficinaNome.IsNullOrEmpty())
-            {
-                oficinasResult.AddRange(contexto.Oficinas.Where(o => o.nome.Contains(searchModel.OficinaNome)).ToList());
-            }
-            if (!searchModel.OficinaCpnj.IsNullOrEmpty())
-            {
-                oficinasResult.AddRange(contexto.Oficinas.Where(o => o.cpnj.Contains(searchModel.OficinaCpnj)).ToList());
-            }
-            if (!searchModel.OficinaCep.IsNullOrEmpty())
-            {
-                oficinasResult.AddRange(contexto.Oficinas.Where(o => o.cep.Contains(searchModel.OficinaCep)).ToList());
-            }
-            if (!searchModel.OficinaEndereco.IsNullOrEmpty())
-            {
-                oficinasResult.AddRange(contexto.Oficinas.Where(o => o.endereco.Contains(searchModel.OficinaEndereco)).ToList());
-            }
-            if (!searchModel.OficinaCidade.IsNullOrEmpty())
-            {
-                oficinasResult.AddRange(contexto.Oficinas.Where(o => o.cidade.Contains(searchModel.OficinaCidade)).ToList());
-            }
-            if (!searchModel.OficinaEstado.IsNullOrEmpty())
-            {
-                var oficinas = contexto.Oficinas.Where(o => o.estado.Contains(searchModel.OficinaEstado)).ToList();
-                oficinasResult.AddRange(oficinas);
-            }
+        {
+            string query = @"
+        SELECT DISTINCT m.nome, m.sexo, m.categoriaDeManutencao, m.resumo, m.oficinaId
+        FROM Mecanicos m
+        JOIN Oficinas o ON m.oficinaId = o.id
+        WHERE (m.nome LIKE '%' + @mecanicoNome + '%' OR @mecanicoNome = '' )
+            AND (m.sexo LIKE '%' + @mecanicoSexo + '%' OR @mecanicoSexo = '')       
+            AND (m.categoriaDeManutencao LIKE '%' + @mecanicoCategoriaDeManutencao + '%' OR @mecanicoCategoriaDeManutencao = '')
+            AND (m.resumo LIKE '%' + @mecanicoResumo + '%' OR @mecanicoResumo = '')
+            AND (o.nome LIKE '%' + @oficinaNome + '%' OR @oficinaNome = '')
+            AND (o.cidade LIKE '%' + @oficinaCidade + '%' OR @oficinaCidade = '')
+            AND (o.estado LIKE '%' + @oficinaEstado + '%' OR @oficinaEstado = '')";
 
-            List<MecanicoModel> mecanicosResult = new List<MecanicoModel>();
-            oficinasResult.ForEach(oficina => { mecanicosResult.AddRange(oficina.mecanicos)}); ;
+            using (SqlConnection connection = new SqlConnection("Data Source=localhost;Initial Catalog=Revis;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
+            {
+                SqlCommand sqlCommand = new SqlCommand(query, connection);
+                if (!searchModel.MecanicoNome.IsNullOrEmpty()) 
+                {
+                    sqlCommand.Parameters.AddWithValue("@mecanicoNome", searchModel.MecanicoNome);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@mecanicoNome", ""); }
 
-            if (!searchModel.MecanicoNome.IsNullOrEmpty())
-            {
-                mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.nome.Contains(searchModel.MecanicoNome)).ToList());
-            }
-            if (!searchModel.MecanicoSexo.IsNullOrEmpty())
-            {
-                mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.sexo.Contains(searchModel.MecanicoSexo)).ToList());
-            }
-            if (!searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty())
-            {
-                mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.categoriaDeManutencao.Contains(searchModel.MecanicoCategoriaDeManutencao)).ToList());
-            }
-            if (!searchModel.MecanicoResumo.IsNullOrEmpty())
-            {
-                mecanicosResult.AddRange(contexto.Mecanicos.Where(m => m.resumo.Contains(searchModel.MecanicoResumo)).ToList());
-            }
+                if (!searchModel.MecanicoSexo.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@mecanicoSexo", searchModel.MecanicoSexo);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@mecanicoSexo", ""); }
 
-            if (mecanicosResult.Any())
-            {
-                mecanicosResult = mecanicosResult
-                .GroupBy(m => new { m.nome, m.cpf, m.sexo }) // Agrupar por propriedades relevantes
-                .Select(g => g.First()) // Selecionar o primeiro registro de cada grupo
-                .ToList();
-                oficinasResult = oficinasResult.Where(o => mecanicosResult.Any(m => m.oficinaId == o.id)).ToList();
+                if (!searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@mecanicoCategoriaDeManutencao", searchModel.MecanicoCategoriaDeManutencao);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@mecanicoCategoriaDeManutencao", ""); }
 
-            }*/
-            List<OficinaModel> oficinasResult = new List<OficinaModel>();
-            oficinasResult = contexto.Oficinas
-                .Where(o => (
-                    (searchModel.OficinaNome.IsNullOrEmpty() || o.nome.Contains(searchModel.OficinaNome)) &&
-                    (searchModel.OficinaEstado.IsNullOrEmpty() || o.estado.Contains(searchModel.OficinaEstado)) &&
-                    (searchModel.OficinaCidade.IsNullOrEmpty() || o.cidade.Contains(searchModel.OficinaCidade)) &&
-                    (searchModel.OficinaEndereco.IsNullOrEmpty() || o.endereco.Contains(searchModel.OficinaEndereco)) &&
-                    (searchModel.MecanicoNome.IsNullOrEmpty() || o.mecanicos.Any(m => m.nome.Contains(searchModel.MecanicoNome))) &&
-                    (searchModel.MecanicoSexo.IsNullOrEmpty() || o.mecanicos.Any(m => m.sexo == searchModel.MecanicoSexo)) &&
-                    (searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty() || o.mecanicos.Any(m => m.categoriaDeManutencao.Contains(searchModel.MecanicoCategoriaDeManutencao))) &&
-                    (searchModel.MecanicoResumo.IsNullOrEmpty() || o.mecanicos.Any(m => m.resumo.Contains(searchModel.MecanicoResumo)))
-                ))
-                .ToList();
-            oficinasResult = oficinasResult.Distinct().ToList();
-            List<MecanicoModel> mecanicosResult = new List<MecanicoModel>();
+                if (!searchModel.MecanicoResumo.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@mecanicoResumo", searchModel.MecanicoResumo);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@mecanicoResumo", ""); }
 
-            foreach (var oficina in oficinasResult)
-            {
-                 mecanicosResult = contexto.Mecanicos
-                    .Where(m => m.oficinaId == oficina.id &&
-                        (searchModel.MecanicoNome.IsNullOrEmpty() || m.nome.Contains(searchModel.MecanicoNome)) &&
-                        (searchModel.MecanicoSexo.IsNullOrEmpty() || m.sexo == searchModel.MecanicoSexo) &&
-                        (searchModel.MecanicoCategoriaDeManutencao.IsNullOrEmpty() || m.categoriaDeManutencao == (searchModel.MecanicoCategoriaDeManutencao)) &&
-                        (searchModel.MecanicoResumo.IsNullOrEmpty() || m.resumo.Contains(searchModel.MecanicoResumo)))
-                    .ToList();
+                if (!searchModel.OficinaCidade.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@oficinaCidade", searchModel.OficinaCidade);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@oficinaCidade", ""); }
 
-                oficina.mecanicos = mecanicosResult;
-            }
-
-            var searchResults = new SearchModel
-            {
-                oficinas = oficinasResult,
-                mecanicos = mecanicosResult
-            };
+                if (!searchModel.OficinaEstado.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@oficinaEstado", searchModel.OficinaEstado);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@oficinaEstado", ""); }
 
 
-            return View("AdvancedResults", searchResults);
+                if (!searchModel.OficinaNome.IsNullOrEmpty())
+                {
+                    sqlCommand.Parameters.AddWithValue("@oficinaNome", searchModel.OficinaNome);
+                }
+                else { sqlCommand.Parameters.AddWithValue("@oficinaNome", ""); }
+
+                connection.Open();
+
+                List<MecanicoModel> mecanicos = new List<MecanicoModel>();
+
+                using (SqlDataReader reader = sqlCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        MecanicoModel mecanico = new MecanicoModel();
+                        mecanico.nome = reader.GetString(0);
+                        mecanico.sexo = reader.GetString(1);
+                        mecanico.categoriaDeManutencao = reader.GetString(2);
+                        mecanico.resumo = reader.GetString(3);
+                        mecanico.oficinaId = reader.GetInt32(4);
+
+                        OficinaModel oficina = contexto.Oficinas.FirstOrDefault(o => o.id == mecanico.oficinaId);
+                        mecanico.oficina = oficina;
+                        mecanicos.Add(mecanico);
+                    }
+                }
+
+                return View("AdvancedResults", mecanicos);
+            }
         }
-
+          
 
         public IActionResult AdvancedResults(SearchModel searchModel)
         {

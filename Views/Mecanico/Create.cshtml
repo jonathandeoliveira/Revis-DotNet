@@ -9,17 +9,28 @@
 
     <div class="form-group">
         <label for="nome" class="form-label">Nome:</label>
-        <input type="datetime" asp-for="nome" class="form-control" placeholder="Seu nome">
+        <input type="datetime" asp-for="nome" class="form-control" placeholder="Seu nome" required>
     </div>
 
     <div class="form-group">
         <label for="CPF" class="form-label">CPF:</label>
-        <input type="text" asp-for="cpf" class="form-control" placeholder="123.456.789-00">
+        <input type="text" asp-for="cpf" class="form-control" placeholder="123.456.789-00" pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" required>
+        <script>
+            const form = document.querySelector('form');
+            const cpfInput = document.getElementById('cpf');
+
+            form.addEventListener('submit', function (event) {
+                if (!cpfInput.validity.valid) {
+                    event.preventDefault();
+                    alert('O CPF informado não está no formato correto.');
+                }
+            });
+        </script>
     </div>
 
     <div class="form-group">
         <label for="cidade" class="form-label">Gênero:</label>
-        <select asp-for="sexo" class="form-control">
+        <select asp-for="sexo" class="form-control" required>
             <option value="">Selecione seu gênero</option>
             <option value="Masculino">Masculino </option>
             <option value="Feminino">Feminino</option>
@@ -30,7 +41,7 @@
 
     <div class="form-group">
         <label for="categoriaDeManutencao" class="form-label">Categoria de Manutenção:</label>
-        <select asp-for="categoriaDeManutencao" class="form-control">
+        <select asp-for="categoriaDeManutencao" class="form-control" required>
             <option value="">Categoria de manutenção</option>
             <option value="Carro">Carro</option>
             <option value="Motocicletas">Motocicletas</option>
@@ -40,8 +51,8 @@
     </div>
 
     <div class="form-group">
-        <label for="idade" class="form-label">Idade:</label>
-        <input type="text" asp-for="idade" class="form-control" placeholder="38">
+        <label for="idade" class="form-label">Data de Nascimento:</label>
+        <input type="date" asp-for="idade" class="form-control" placeholder="38" required>
     </div>
 
     <div class="form-group">
@@ -50,5 +61,6 @@
     </div><br>
 
     <button type="submit" class="btn btn-primary">Enviar</button>
+    <script>alert("Oficina cadastrada com sucesso!")</script>
     <a class="btn btn-secondary" asp-controller="Oficina" asp-action="Index" role="button"> Voltar </a>
 </form>

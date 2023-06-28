@@ -1,41 +1,22 @@
-﻿@model SearchModel
+﻿@model List<MecanicoModel>
 
-<h1>Resultados da Busca Avançada</h1>
-<br>
-@if (Model.oficinas.Any())
+<h2>Resultado da Busca</h2>
+
+@if (Model != null && Model.Count > 0)
 {
-    <h4>Oficinas Encontradas:</h4>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Oficina</th>
-                @if (Model.mecanicos.Any())
-                   {
-                       <th>Mecânicos</th>
-                   }
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var oficina in Model.oficinas)
-            {
-                <tr>
-                    <td>@oficina.nome</td>
-                    <td>
-                        <ul>
-                            @if(Model.mecanicos.Any())
-                            @foreach (var mecanico in Model.mecanicos)
-                            {
-                                <li>@mecanico.nome</li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    foreach (var mecanico in Model)
+    {
+        <div class="container-fluid">
+            <h4>@mecanico.nome</h4>
+            <p>Gênero: @mecanico.sexo</p>
+            <p>Categoria de Manutenção: @mecanico.categoriaDeManutencao</p>
+            <p>Especialidades: @mecanico.resumo</p>
+            <p>Oficina: @mecanico.oficina.nome</p>
+        </div>
+        <hr />
+    }
 }
 else
 {
-    <p>Nenhum resultado encontrado.</p>
+    <p>Nenhum mecânico/oficina encontrado pelo critério de busca.</p>
 }

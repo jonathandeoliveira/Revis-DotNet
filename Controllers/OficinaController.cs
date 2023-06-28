@@ -31,20 +31,6 @@ namespace Revis.Controllers
             return View();
         }
 
-        /*public IActionResult Show(int id)
-        {
-            OficinaModel oficina = contexto.Oficinas.Find(id);
-            if (oficina == null)
-            {
-                return View("Error");
-            }
-            List<MecanicoModel> mecanicos = contexto.Mecanicos.Where(m => m.oficina.id == id).ToList();
-            ViewBag.Oficina = oficina;
-            ViewBag.Mecanicos = mecanicos;
-            return View();
-        }*/
-
-
         public IActionResult Show(int id)
         {
             OficinaModel oficina = contexto.Oficinas.Find(id);
@@ -62,11 +48,12 @@ namespace Revis.Controllers
         [HttpPost]
         public IActionResult Create(OficinaModel oficina)
         {
+            oficina.mecanicos = new List<MecanicoModel>(); 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
+            oficina.mecanicos = new List<MecanicoModel>();
             Contexto contexto = new Contexto();
             contexto.Oficinas.Add(oficina);
             contexto.SaveChanges();
@@ -83,7 +70,7 @@ namespace Revis.Controllers
             }
 
             MecanicoModel mecanico = new MecanicoModel();
-            ViewData["OficinaId"] = oficinaId; // Passa o ID da oficina para a view usando ViewData
+            ViewData["OficinaId"] = oficinaId;
             return View("CreateMecanico", mecanico);
         }
 
@@ -94,7 +81,7 @@ namespace Revis.Controllers
 
             if (oficina != null)
             {
-                mecanico.oficina = oficina; // Atribui o ID da oficina à propriedade oficinaId
+                mecanico.oficina = oficina;
                 contexto.Mecanicos.Add(mecanico);
                 contexto.SaveChanges();
             }

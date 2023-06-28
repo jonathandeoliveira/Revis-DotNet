@@ -16,6 +16,9 @@ namespace Revis.Models
         public string estado { get; set; }
 
         public virtual ICollection<MecanicoModel> mecanicos { get; set; }
+        public OficinaModel()
+        {
+            mecanicos = new List<MecanicoModel>();
+        }
     }
-
 }

@@ -20,7 +20,7 @@ namespace Revis.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Login()
         {
             return View();
         }
@@ -34,8 +34,21 @@ namespace Revis.Controllers
 
         public IActionResult SimpleSearch(string query)  // Realizar a busca simples nas oficinas e funcionários
         {
-            var oficinas = contexto.Oficinas.Where(o => o.nome.Contains(query)).ToList();
-            var mecanicos = contexto.Mecanicos.Where(f => f.nome.Contains(query)).ToList();
+            var oficinas = contexto.Oficinas.Where(o => (
+                     o.nome.Contains(query)) ||
+                     o.estado.Contains(query) ||
+                     o.cidade.Contains(query) ||
+                     o.endereco.Contains(query) ||
+                     o.mecanicos.Any(m => m.nome.Contains(query)) ||
+                     o.mecanicos.Any(m => m.sexo == query) ||
+                     o.mecanicos.Any(m => m.categoriaDeManutencao.Contains(query)) ||
+                     o.mecanicos.Any(m => m.resumo.Contains(query))
+                     ).Distinct().ToList();
+            var mecanicos = contexto.Mecanicos.Where(
+                m => m.nome.Contains(query) ||
+                     m.resumo.Contains(query)
+
+                ).Distinct().ToList();
 
             ViewBag.oficinas = oficinas;
             ViewBag.mecanicos = mecanicos;
