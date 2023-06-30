@@ -42,6 +42,11 @@ namespace Revis.Controllers
             List<MecanicoModel> mecanicos = contexto.Mecanicos.Where(m => m.oficina.id == id).ToList();
             ViewBag.Mecanicos = mecanicos;
             ViewBag.Oficina = oficina;
+            if (TempData.ContainsKey("MensagemCadastro"))
+            {
+                ViewBag.Message = TempData["MensagemCadastro"];
+            }
+
             return View(oficina);
         }
 
@@ -51,12 +56,14 @@ namespace Revis.Controllers
             oficina.mecanicos = new List<MecanicoModel>(); 
             if (!ModelState.IsValid)
             {
+                TempData["MensagemCadastro"] = "Houve algum erro durante o cadastro!";
                 return BadRequest(ModelState);
             }
             oficina.mecanicos = new List<MecanicoModel>();
             Contexto contexto = new Contexto();
             contexto.Oficinas.Add(oficina);
             contexto.SaveChanges();
+            TempData["MensagemCadastro"] = "Oficina cadastrada com sucesso!";
             return RedirectToAction("Index");
         }
 
@@ -84,7 +91,10 @@ namespace Revis.Controllers
                 mecanico.oficina = oficina;
                 contexto.Mecanicos.Add(mecanico);
                 contexto.SaveChanges();
+                TempData["MensagemCadastro"] = "Mecânico(a) cadastrado com sucesso!";
             }
+            else { TempData["MensagemCadastro"] = "Houve algum erro durante o cadastro!"; }
+            
             return RedirectToAction("Show", new { id = oficinaId });
         }
 

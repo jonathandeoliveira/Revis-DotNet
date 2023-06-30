@@ -1,5 +1,14 @@
 ﻿@model OficinaModel
 
+@{
+    ViewData["Title"] = "Detalhes da Oficina";
+}
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">@ViewBag.Message</div>
+}
+
 <nav>
     <article>
         <h1 class="display-8">Detalhes sobre a oficina:</h1>
@@ -25,7 +34,6 @@
             <th scope="col">Sexo</th>
             <th scope="col">Categoria de Manutenção</th>
             <th scope="col">Especialidade do mecânico</th>
-            <!-- Adicione aqui outras colunas desejadas -->
         </tr>
         @foreach (var mecanico in ViewBag.Mecanicos)
         {
@@ -38,7 +46,6 @@
                 <td scope="row">@mecanico.sexo</td>
                 <td scope="row">@mecanico.categoriaDeManutencao</td>
                 <td scope="row">@mecanico.resumo</td>
-                <!-- Adicione aqui outras colunas desejadas -->
             </tr>
         }
     </table>

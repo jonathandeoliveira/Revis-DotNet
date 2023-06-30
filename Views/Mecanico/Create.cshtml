@@ -1,5 +1,7 @@
 ﻿@model MecanicoModel
 
+
+
 <h1>Cadastrar Mecânico em: @Model.oficina.nome </h1>
 
 <form asp-controller="Oficina" asp-action="CreateMecanico" method="post">
@@ -61,6 +63,5 @@
     </div><br>
 
     <button type="submit" class="btn btn-primary">Enviar</button>
-    <script>alert("Oficina cadastrada com sucesso!")</script>
     <a class="btn btn-secondary" asp-controller="Oficina" asp-action="Index" role="button"> Voltar </a>
 </form>

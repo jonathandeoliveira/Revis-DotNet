@@ -7,11 +7,11 @@
     foreach (var mecanico in Model)
     {
         <div class="container-fluid">
-            <h4>@mecanico.nome</h4>
+            <h4> <a role="link" asp-controller="Mecanico" asp-action="Show" asp-route-id="@mecanico.id"> @mecanico.nome </a></h4>
             <p>Gênero: @mecanico.sexo</p>
             <p>Categoria de Manutenção: @mecanico.categoriaDeManutencao</p>
             <p>Especialidades: @mecanico.resumo</p>
-            <p>Oficina: @mecanico.oficina.nome</p>
+            <p>Oficina: <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@mecanico.oficina.id"> @mecanico.oficina.nome </a> </p>
         </div>
         <hr />
     }

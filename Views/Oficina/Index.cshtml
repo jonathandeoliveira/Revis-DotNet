@@ -1,8 +1,14 @@
 ﻿@model List<OficinaModel>
 @{
     ViewData["Title"] = "Oficinas";
+    var mensagemCadastro = TempData["MensagemCadastro"] as string;
 }
-
+@if (!string.IsNullOrEmpty(mensagemCadastro))
+{
+    <div class="alert alert-success">
+        @mensagemCadastro
+    </div>
+}
 <div class="text-center">
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-start">
@@ -12,7 +18,7 @@
     <div>
         <h1 class="display-8">Todas as Oficinas:</h1>
     </div>
-    <table class="table table-hover">
+    <table class="table table-hover" style="height: 100px">
         <thead>
             <tr class="table-active">
                 <th scope="col">Nome</th>
@@ -25,7 +31,7 @@
         {
             foreach (OficinaModel oficina in Model)
             {
-                <tbody>
+                <tbody style="overflow: auto;">
                     <tr >
                         <td scope="row">
                             <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@oficina.id">

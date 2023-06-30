@@ -21,7 +21,7 @@ namespace Revis.Controllers
         public IActionResult AdvancedSearch(SearchModel searchModel)
         {
             string query = @"
-        SELECT DISTINCT m.nome, m.sexo, m.categoriaDeManutencao, m.resumo, m.oficinaId
+        SELECT DISTINCT m.id, m.nome, m.sexo, m.categoriaDeManutencao, m.resumo, m.oficinaId
         FROM Mecanicos m
         JOIN Oficinas o ON m.oficinaId = o.id
         WHERE (m.nome LIKE '%' + @mecanicoNome + '%' OR @mecanicoNome = '' )
@@ -35,6 +35,10 @@ namespace Revis.Controllers
             using (SqlConnection connection = new SqlConnection("Data Source=localhost;Initial Catalog=Revis;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
             {
                 SqlCommand sqlCommand = new SqlCommand(query, connection);
+
+
+                //Os ifs são para fazer a proteção contra sql injection nos campos preenchidos 
+                //os elses são para considerar como espaços vazios na query sql.
                 if (!searchModel.MecanicoNome.IsNullOrEmpty()) 
                 {
                     sqlCommand.Parameters.AddWithValue("@mecanicoNome", searchModel.MecanicoNome);
@@ -87,11 +91,12 @@ namespace Revis.Controllers
                     while (reader.Read())
                     {
                         MecanicoModel mecanico = new MecanicoModel();
-                        mecanico.nome = reader.GetString(0);
-                        mecanico.sexo = reader.GetString(1);
-                        mecanico.categoriaDeManutencao = reader.GetString(2);
-                        mecanico.resumo = reader.GetString(3);
-                        mecanico.oficinaId = reader.GetInt32(4);
+                        mecanico.id = reader.GetInt32(0);
+                        mecanico.nome = reader.GetString(1);
+                        mecanico.sexo = reader.GetString(2);
+                        mecanico.categoriaDeManutencao = reader.GetString(3);
+                        mecanico.resumo = reader.GetString(4);
+                        mecanico.oficinaId = reader.GetInt32(5);
 
                         OficinaModel oficina = contexto.Oficinas.FirstOrDefault(o => o.id == mecanico.oficinaId);
                         mecanico.oficina = oficina;
