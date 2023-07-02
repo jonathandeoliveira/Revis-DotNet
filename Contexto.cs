@@ -6,10 +6,12 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Revis.Areas.Identity.Data;
 
 namespace Revis
 {
-    public class Contexto : DbContext
+    public class Contexto : IdentityDbContext<ApplicationUser>
     {
         public DbSet<OficinaModel> Oficinas { get; set; }
         public DbSet<MecanicoModel> Mecanicos { get; set; }
@@ -33,7 +35,9 @@ namespace Revis
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<MecanicoModel>().HasOne(e => e.oficina).WithMany(e => e.mecanicos).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<ApplicationUser>().ToTable("AspNetUsers");
 
+            base.OnModelCreating(modelBuilder);
         }
 
 

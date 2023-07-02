@@ -1,0 +1,152 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Cadastro";
+}
+
+<h1>Registre-se</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h3>Preencha os campos abaixo para poder utilizar a plataforma:</h3>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Nome" style="font-weight: bolder; font-size: 16px">Nome:</label>
+                        <input asp-for="Input.Nome" class="form-control" autocomplete="Nome" aria-required="true" />
+                        <span asp-validation-for="Input.Nome" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Sobrenome" style="font-weight: bolder; font-size: 16px">Sobrenome:</label>
+                        <input asp-for="Input.Sobrenome" class="form-control" autocomplete="Sobrenome" aria-required="true" />
+                        <span asp-validation-for="Input.Sobrenome" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.CPF" style="font-weight: bolder; font-size: 16px"> CPF:</label>
+                        <input asp-for="Input.CPF" class="form-control" autocomplete="Cpf" aria-required="true" />
+                        <span asp-validation-for="Input.CPF" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Input.Telefone" style="font-weight: bolder; font-size: 16px"> Telefone:</label>
+                        <input asp-for="Input.Telefone" class="form-control" autocomplete="Telefone" aria-required="true" />
+                        <span asp-validation-for="Input.Telefone" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.EnderecoCompleto" style="font-weight: bolder; font-size: 16px">Endereço Completo:</label>
+                <input asp-for="Input.EnderecoCompleto" class="form-control" autocomplete="EnderecoCompleto" aria-required="true" />
+                <span asp-validation-for="Input.EnderecoCompleto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Estado" style="font-weight: bolder; font-size: 16px">Estado:</label>
+                <select asp-for="Input.Estado" class="form-control" autocomplete="Estado" aria-required="true">
+                    <option value="">Selecione o estado</option>
+                    <option value="Acre">Acre</option>
+                    <option value="Alagoas">Alagoas</option>
+                    <option value="Amapá">Amapá</option>
+                    <option value="Amazonas">Amazonas</option>
+                    <option value="Bahia">Bahia</option>
+                    <option value="Ceará">Ceará</option>
+                    <option value="Distrito Federal">Distrito Federal</option>
+                    <option value="Espírito Santo">Espírito Santo</option>
+                    <option value="Goiás">Goiás</option>
+                    <option value="Maranhão">Maranhão</option>
+                    <option value="Mato Grosso">Mato Grosso</option>
+                    <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+                    <option value="Minas Gerais">Minas Gerais</option>
+                    <option value="Pará">Pará</option>
+                    <option value="Paraíba">Paraíba</option>
+                    <option value="Paraná">Paraná</option>
+                    <option value="Pernambuco">Pernambuco</option>
+                    <option value="Piauí">Piauí</option>
+                    <option value="Rio de Janeiro">Rio de Janeiro</option>
+                    <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+                    <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+                    <option value="Rondônia">Rondônia</option>
+                    <option value="Roraima">Roraima</option>
+                    <option value="Santa Catarina">Santa Catarina</option>
+                    <option value="São Paulo">São Paulo</option>
+                    <option value="Sergipe">Sergipe</option>
+                    <option value="Tocantins ">Tocantins</option>
+                </select>
+                <span asp-validation-for="Input.Estado" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Cidade" style="font-weight: bolder; font-size: 16px">Cidade:</label>
+                <input asp-for="Input.Cidade" class="form-control" autocomplete="Cidade" aria-required="true" />
+                <span asp-validation-for="Input.Cidade" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Email" style="font-weight: bolder; font-size: 16px">E-mail</label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.Password" style="font-weight: bolder; font-size: 16px">Senha:</label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Input.ConfirmPassword" style="font-weight: bolder; font-size: 16px">Confirme sua senha:</label>
+                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div><br>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Registrar</button>
+        </form>
+    </div>
+    <!--
+    <div class="col-md-6 col-md-offset-2">
+        <section>
+            <h3>Use another service to register.</h3>
+            <hr />
+    @{
+        if ((Model.ExternalLogins?.Count ?? 0) == 0)
+        {
+                            <div>
+                                <p>
+                                    There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
+                                    about setting up this ASP.NET application to support logging in via external services</a>.
+                                </p>
+                            </div>
+        }
+        else
+        {
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <p>
+                        @foreach (var provider in Model.ExternalLogins!)
+                        {
+                                                <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                        }
+                                    </p>
+                                </div>
+                            </form>
+        }
+    }
+        </section>
+    </div> -->
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
