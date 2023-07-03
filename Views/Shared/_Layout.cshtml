@@ -25,13 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Revis - Página Principal </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
-                        </li>
+
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-controller="Oficina" asp-action="Index">Oficinas</a>
                         </li>
                     </ul>
+                    <div class="navbar-collapse collapse d-sm-inline-flexflex-sm-row-reverse">
+                        <partial name="_LoginPartial.cshtml" />
+                    </div>
                 </div>
                 <form action="@Url.Action("SimpleSearch", "Home")" method="GET">
                     <input type="text" name="query" placeholder="Busca simples">
