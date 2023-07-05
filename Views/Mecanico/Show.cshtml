@@ -8,6 +8,14 @@
             <dl>
                 <dt>Nome:</dt>
                 <dd>@Model.nome</dd>
+                <dt>Oficina em que trabalha:</dt>
+                <dd>
+                    <a role="link" asp-controller="Oficina" asp-action="Show" asp-route-id="@Model.oficina.id">
+                        @Model.oficina.nome
+                    </a>
+                </dd>
+                <dt>Endereço:</dt>
+                <dd>@Model.oficina.endereco - @Model.oficina.cidade, @Model.oficina.estado</dd>
                 <dt>Gênero:</dt>
                 <dd>@Model.sexo</dd>
                 <dt>Categoria de Manutenção:</dt>

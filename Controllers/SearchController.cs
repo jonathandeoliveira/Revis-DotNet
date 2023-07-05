@@ -21,16 +21,16 @@ namespace Revis.Controllers
         public IActionResult AdvancedSearch(SearchModel searchModel)
         {
             string query = @"
-        SELECT DISTINCT m.id, m.nome, m.sexo, m.categoriaDeManutencao, m.resumo, m.oficinaId
-        FROM Mecanicos m
-        JOIN Oficinas o ON m.oficinaId = o.id
-        WHERE (m.nome LIKE '%' + @mecanicoNome + '%' OR @mecanicoNome = '' )
-            AND (m.sexo LIKE '%' + @mecanicoSexo + '%' OR @mecanicoSexo = '')       
-            AND (m.categoriaDeManutencao LIKE '%' + @mecanicoCategoriaDeManutencao + '%' OR @mecanicoCategoriaDeManutencao = '')
-            AND (m.resumo LIKE '%' + @mecanicoResumo + '%' OR @mecanicoResumo = '')
-            AND (o.nome LIKE '%' + @oficinaNome + '%' OR @oficinaNome = '')
-            AND (o.cidade LIKE '%' + @oficinaCidade + '%' OR @oficinaCidade = '')
-            AND (o.estado LIKE '%' + @oficinaEstado + '%' OR @oficinaEstado = '')";
+                SELECT DISTINCT m.id, m.nome, m.sexo, m.categoriaDeManutencao, m.resumo, m.oficinaId
+                FROM Mecanicos m
+                JOIN Oficinas o ON m.oficinaId = o.id
+                WHERE (m.nome LIKE '%' + @mecanicoNome + '%' OR @mecanicoNome = '' )
+                    AND (m.sexo LIKE '%' + @mecanicoSexo + '%' OR @mecanicoSexo = '')       
+                    AND (m.categoriaDeManutencao LIKE '%' + @mecanicoCategoriaDeManutencao + '%' OR @mecanicoCategoriaDeManutencao = '')
+                    AND (m.resumo LIKE '%' + @mecanicoResumo + '%' OR @mecanicoResumo = '')
+                    AND (o.nome LIKE '%' + @oficinaNome + '%' OR @oficinaNome = '')
+                    AND (o.cidade LIKE '%' + @oficinaCidade + '%' OR @oficinaCidade = '')
+                    AND (o.estado LIKE '%' + @oficinaEstado + '%' OR @oficinaEstado = '')";
 
             using (SqlConnection connection = new SqlConnection("Data Source=localhost;Initial Catalog=Revis;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"))
             {
